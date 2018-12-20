@@ -69,7 +69,8 @@ namespace Quine_McCluskey_Implementation
             PrimeImplicantsList.RemoveAll(x => EssentialPrimes.Contains(x));
             while (undefinedMinterms.Count > 0)
             {
-                if (PrimeImplicantsList.Count > 0)
+                if (PrimeImplicantsList.Count > 0 && PrimeImplicantsList.Exists(x =>
+                x.Exists(y => undefinedMinterms.Exists(z => z.Minterm == y.Minterm))))
                 {
                     var chosenGroup = PrimeImplicantsList.OrderByDescending(x =>
                     x.Count(y => undefinedMinterms.Exists(z =>
@@ -77,6 +78,7 @@ namespace Quine_McCluskey_Implementation
                     MinimumPrimeImplicants.Add(chosenGroup);
                     undefinedMinterms.RemoveAll(x => chosenGroup.Exists(y =>
                     y.Minterm == x.Minterm));
+                    PrimeImplicantsList.Remove(chosenGroup);
                 }
                 else
                 {
